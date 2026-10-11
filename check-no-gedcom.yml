@@ -1,0 +1,27 @@
+name: Check no GEDCOM file
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the repository files
+        uses: actions/checkout@v4
+
+      - name: Fail if a GEDCOM file is present
+        run: |
+          if git ls-files | grep -i -E '\.(ged|gedcom)$'; then
+            echo "::error::A GEDCOM file is in the repository. Remove it: it contains personal data."
+            exit 1
+          fi
+          if git grep -I -l -E '^1 GEDC' ; then
+            echo "::error::A file looks like a GEDCOM export. Remove it: it contains personal data."
+            exit 1
+          fi
+          echo "OK: no GEDCOM file found."
