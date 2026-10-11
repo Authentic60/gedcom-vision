@@ -1,9 +1,0 @@
-# Never commit genealogy data (personal information, including living people)
-*.ged
-*.gedcom
-
-# Excel temporary files
-~$*
-
-# Macro workbooks are distributed through Releases, not stored in the repository
-*.xlsm
